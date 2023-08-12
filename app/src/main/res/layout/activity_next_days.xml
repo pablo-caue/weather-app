@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_1"
+    android:padding="20dp"
+    tools:context=".view.NextDaysActivity">
+
+    <ImageView
+        android:id="@+id/image_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/background_back"
+        android:padding="8dp"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview"
+        android:layout_width="0dp"
+        android:layout_height="340dp"
+        android:layout_marginTop="64dp"
+        app:cardBackgroundColor="@color/black_2"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_back">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/image_weather"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/snowy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_tomorrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="@string/tomorrow"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/image_weather"
+                app:layout_constraintTop_toTopOf="@id/image_weather" />
+
+            <TextView
+                android:id="@+id/text_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00º"
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/text_weather"
+                app:layout_constraintStart_toStartOf="@id/text_tomorrow"
+                app:layout_constraintTop_toBottomOf="@id/text_tomorrow" />
+
+            <TextView
+                android:id="@+id/text_weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mostly Cloudy"
+                android:textColor="@color/white"
+
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/image_weather"
+                app:layout_constraintStart_toStartOf="@id/text_tomorrow" />
+
+            <ImageView
+                android:id="@+id/image_chance_rain"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/umbrella"
+                app:layout_constraintEnd_toStartOf="@id/image_wind_speed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/image_wind_speed" />
+
+            <ImageView
+                android:id="@+id/image_wind_speed"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/wind"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_chance_rain"
+                app:layout_constraintTop_toBottomOf="@id/image_weather" />
+
+
+            <TextView
+                android:id="@+id/text_data_chance_rain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/data_chance_rain"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/image_chance_rain"
+                app:layout_constraintStart_toStartOf="@id/image_chance_rain"
+                app:layout_constraintTop_toBottomOf="@id/image_chance_rain" />
+
+            <TextView
+                android:id="@+id/text_data_wind_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/data_wind_speed"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/text_data_chance_rain"
+                app:layout_constraintTop_toBottomOf="@id/image_wind_speed" />
+
+            <TextView
+                android:id="@+id/text_chance_rain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rain"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/text_data_chance_rain"
+                app:layout_constraintStart_toStartOf="@id/text_data_chance_rain"
+                app:layout_constraintTop_toBottomOf="@id/text_data_chance_rain" />
+
+            <TextView
+                android:id="@+id/text_wind_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wind_speed"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/text_data_wind_speed"
+                app:layout_constraintStart_toStartOf="@id/text_data_wind_speed"
+                app:layout_constraintTop_toBottomOf="@id/text_data_wind_speed" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardview" />
+
+        <ImageView
+            android:id="@+id/image_powered"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/baseline_wb_sunny_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/text_powered"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
+
+        <TextView
+            android:id="@+id/text_powered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/powered"
+            android:textColor="@color/black_3"
+            android:textSize="16dp"
+            app:layout_constraintStart_toEndOf="@id/image_powered"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/image_powered"
+            app:layout_constraintBottom_toBottomOf="@id/image_powered" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

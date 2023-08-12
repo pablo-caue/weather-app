@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Weather</string>
+    <string name="today">Hoje</string>
+    <string name="date">data</string>
+    <string name="weather">clima</string>
+    <string name="city">cidade</string>
+    <string name="temp_high">Max:00º</string>
+    <string name="temp_low">Min:00º</string>
+    <string name="temp">\00º</string>
+    <string name="image_weather">imagem de clima</string>
+    <string name="data_chance_rain">00%</string>
+    <string name="data_wind_speed">00 km/h</string>
+    <string name="data_humidity">00%</string>
+    <string name="rain">Chuva</string>
+    <string name="wind_speed">Vento</string>
+    <string name="humanity">Humidade</string>
+    <string name="ERROR_UNEXPECTED">Erro inesperado</string>
+    <string name="next_7_day">Próximos 7 dias</string>
+    <string name="tomorrow">Amanhã</string>
+    <string name="sunday">Domingo</string>
+    <string name="monday">Segunda-feira</string>
+    <string name="tuesday">Terça-feira</string>
+    <string name="wednesday">Quarda-feira</string>
+    <string name="thursday">Quinta-feira</string>
+    <string name="friday">Sexta-feira</string>
+    <string name="saturday">Sábado</string>
+    <string name="powered">Fornecido por AccuWeather</string>
+</resources>
