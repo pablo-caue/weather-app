@@ -69,7 +69,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
         when (view.id) {
             R.id.image_back -> finish()
 
-            R.id.image_locale, R.id.text_location, R.id.text_location_description -> viewModel.getLocale()
+            R.id.image_locale, R.id.text_location, R.id.text_location_description -> viewModel.getPermissionLocale(this)
         }
     }
 

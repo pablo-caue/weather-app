@@ -1,5 +1,6 @@
 package com.example.weatherapp.service.helper
 
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationListener
@@ -13,17 +14,11 @@ class PermissionHelper() {
         fun isPermissionEnabled(context: Context, permission: String): Boolean {
             val array = arrayOf(permission)
             return if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(SearchActivity(), array, 100)
+                ActivityCompat.requestPermissions(context as Activity, array, 100)
                 false
-            }else{
+            } else {
                 true
             }
-
         }
-
-
-
-
-
     }
 }
