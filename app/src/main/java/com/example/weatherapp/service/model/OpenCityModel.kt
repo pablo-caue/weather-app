@@ -20,7 +20,3 @@ class CityModel {
     var state: String = ""
 }
 
-class CityKey{
-    @SerializedName("Key")
-    var key : String = ""
-}

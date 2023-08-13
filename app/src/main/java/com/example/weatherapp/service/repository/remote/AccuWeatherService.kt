@@ -43,7 +43,7 @@ interface AccuWeatherService {
     fun getKeyByPosition(
         @Query("apikey") apiKey: String,
         @Query("q") lat_and_long: String,
-    ): Call<CityKey>
+    ): Call<AccuCityModel>
 
 
     //http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=5icfUGAM6D6nLAi6D0duYOQAE4CYFpAW&q=48.2043985%2C15.6229118

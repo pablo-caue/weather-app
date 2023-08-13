@@ -7,11 +7,10 @@ import retrofit2.http.Query
 
 interface OpenWeatherService {
     @GET("direct?")
-    fun search(
+    fun searchByName(
             @Query("q") city: String,
             @Query("limit") limit: Int,
             @Query("appid") key: String
     ): Call<List<CityModel>>
-
 
 }

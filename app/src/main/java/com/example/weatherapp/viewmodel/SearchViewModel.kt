@@ -11,7 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.weatherapp.service.constants.WeatherConstants
 import com.example.weatherapp.service.listener.APIListener
-import com.example.weatherapp.service.model.CityKey
+import com.example.weatherapp.service.model.AccuCityModel
 import com.example.weatherapp.service.model.CityModel
 import com.example.weatherapp.service.repository.SearchRepository
 import com.example.weatherapp.service.repository.SharedPreferences
@@ -19,7 +19,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
-import pub.devrel.easypermissions.PermissionRequest
 
 class SearchViewModel(private val application: Application) : AndroidViewModel(application) {
 
@@ -28,76 +27,84 @@ class SearchViewModel(private val application: Application) : AndroidViewModel(a
     private val _listSearch = MutableLiveData<List<CityModel>>()
     val listSearch: LiveData<List<CityModel>> = _listSearch
 
-    private val _isSaved = MutableLiveData<Boolean>()
-    val isSaved: LiveData<Boolean> = _isSaved
+    private val _listCities = MutableLiveData<AccuCityModel>()
+    val listCities: LiveData<AccuCityModel> = _listCities
 
-    private val _test = MutableLiveData<Location>()
-    val test: LiveData<Location> = _test
+    private val _isSaved = MutableLiveData<Boolean>()
+    val isSaved : LiveData<Boolean> = _isSaved
+
+    private val _userLocale = MutableLiveData<Location>()
+    val userLocale: LiveData<Location> = _userLocale
 
     private val sharedPreferences = SharedPreferences(application.applicationContext)
     private val searchRepository = SearchRepository()
 
-    fun search(city: String) {
-        searchRepository.search(city, object : APIListener<List<CityModel>> {
+    fun searchByName(city: String) {
+        searchRepository.searchByName(city, object : APIListener<List<CityModel>> {
             override fun onSuccess(result: List<CityModel>) {
                 _listSearch.value = result
             }
-
             override fun onFailure(message: String) {
-
+                val s = ""
             }
 
         })
     }
 
-    fun getKeyByPosition(city: String,latitude: String, longitude: String, key: String) {
+    fun getKeyByPosition(latitude: String, longitude: String, apiKey: String) {
 
         val query = "${latitude},${longitude}"
 
-        searchRepository.getKeyByPosition(query, key, object : APIListener<CityKey> {
-            override fun onSuccess(result: CityKey) {
+        searchRepository.getKeyByPosition(query, apiKey, object : APIListener<AccuCityModel> {
+            override fun onSuccess(result: AccuCityModel) {
                 sharedPreferences.store(WeatherConstants.SHARED.KEY, result.key)
-                sharedPreferences.store(WeatherConstants.SHARED.CITY, city)
+                sharedPreferences.store(WeatherConstants.SHARED.CITY, result.city)
                 _isSaved.value = true
             }
 
             override fun onFailure(message: String) {
                 _isSaved.value = false
             }
-
         })
-
-
     }
 
-    @AfterPermissionGranted(123)
-    fun getPermissionLocale(activity: Activity) {
+    fun getKeyByLocale(latitude: String, longitude: String, apiKey: String) {
 
-        if (EasyPermissions.hasPermissions(activity.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION)){
-            fetchLocation(activity)
-        }else{
-            EasyPermissions.requestPermissions(
-                activity,
-                "TESTE",
-                123,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        }
+        val query = "${latitude},${longitude}"
+
+        searchRepository.getKeyByPosition(query, apiKey, object : APIListener<AccuCityModel> {
+            override fun onSuccess(result: AccuCityModel) {
+                sharedPreferences.store(WeatherConstants.SHARED.KEY, result.key)
+                sharedPreferences.store(WeatherConstants.SHARED.CITY, result.city)
+                _listCities.value = result
+            }
+
+            override fun onFailure(message: String) {
+                val s = ""
+            }
+        })
+    }
+    
+    
+    fun getPermissionLocale(activity: Activity) {
+        EasyPermissions.requestPermissions(activity,
+            "Permissão necessaria para prosseguir",
+            WeatherConstants.PERMISSION.LOCATION_PERMISSION_REQUEST_CODE,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
     }
 
     @SuppressLint("MissingPermission")
-    @AfterPermissionGranted(123)
-    private fun fetchLocation(activity: Activity) {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
-        fusedLocationClient.lastLocation.addOnSuccessListener {
-            if (it != null){
-                val latitude = it.latitude
-                val longitude = it.longitude
-                val str = "$latitude, $longitude"
-
-                Toast.makeText(activity.applicationContext, str, Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(activity.applicationContext, "ERRO", Toast.LENGTH_SHORT).show()
+    @AfterPermissionGranted(WeatherConstants.PERMISSION.LOCATION_PERMISSION_REQUEST_CODE)
+    fun fetchLocation(activity: Activity) {
+        if (EasyPermissions.hasPermissions(activity.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+            fusedLocationClient.lastLocation.addOnSuccessListener {
+                if (it != null) {
+                    _userLocale.value = it
+                } else {
+                    Toast.makeText(activity.applicationContext, "ERRO", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

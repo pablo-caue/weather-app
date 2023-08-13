@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var viewModel: MainViewModel
     private lateinit var currentLocale: Locale
     private lateinit var listOfDays: String
+    private lateinit var intentSearchActivity: Intent
 
 
 
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         currentLocale = Locale.getDefault()
         listOfDays = ""
+
 
         // Esconder ActionBar
         supportActionBar?.hide()
@@ -54,6 +56,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         // Inicia o app com a chave 1
         viewModel.setKeyAPI(WeatherConstants.APIWeather.KEY_1)
+
+        intentSearchActivity = Intent(this, SearchActivity::class.java)
+        intentSearchActivity.putExtra(WeatherConstants.EXTRA.API_KEY, viewModel.getKeyAPI())
     }
 
     override fun onResume() {
@@ -72,9 +77,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.image_search -> {
-                val intent = Intent(this, SearchActivity::class.java)
-                intent.putExtra(WeatherConstants.EXTRA.API_KEY, viewModel.getKeyAPI())
-                startActivity(intent)
+                startActivity(intentSearchActivity)
             }
         }
     }
@@ -83,9 +86,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun listWeather() {
 
         val keyCity = viewModel.geyKeyCity()
-        if (keyCity == "") startActivity(Intent(this, SearchActivity::class.java))
-
         val keyApi = viewModel.getKeyAPI()
+
+        if (keyCity == "") startActivity(intentSearchActivity)
 
         val language = currentLocale.language
         val country = currentLocale.country

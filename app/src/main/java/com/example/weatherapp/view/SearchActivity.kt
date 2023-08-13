@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +21,8 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
     private lateinit var binding: ActivitySearchBinding
     private lateinit var viewModel: SearchViewModel
     private lateinit var adapter: CityAdapter
+    private lateinit var keyCity: String
+    private var isLocationFilled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivitySearchBinding.inflate(layoutInflater)
@@ -33,6 +34,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
         // Variaveis da classe
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
         adapter = CityAdapter()
+        keyCity = intent.getStringExtra(WeatherConstants.EXTRA.API_KEY)!!
 
         // Esconder ActionBar
         supportActionBar?.hide()
@@ -47,8 +49,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
         // Listener click recyclerView
         val listener = object : CityListener {
             override fun onClick(city: String, latitude: String, longitude: String) {
-                val key = intent.getStringExtra(WeatherConstants.EXTRA.API_KEY)
-                viewModel.getKeyByPosition(city, latitude, longitude, key!!)
+                viewModel.getKeyByPosition(latitude, longitude, keyCity)
             }
 
         }
@@ -61,7 +62,14 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
 
         //Observer
         observer()
+    }
 
+    override fun onResume() {
+
+        // Caso tenha permissão, altere o layout
+        viewModel.fetchLocation(this)
+
+        super.onResume()
     }
 
     // Eventos de click
@@ -69,7 +77,12 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
         when (view.id) {
             R.id.image_back -> finish()
 
-            R.id.image_locale, R.id.text_location, R.id.text_location_description -> viewModel.getPermissionLocale(this)
+            R.id.image_locale, R.id.text_location, R.id.text_location_description ->
+                if(isLocationFilled) {
+                    finish()
+                }else{
+                    viewModel.getPermissionLocale(this)
+                }
         }
     }
 
@@ -87,7 +100,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
         if (string != null && string != "") {
             val lang = getLanguege()
             binding.recyclerView.visibility = View.VISIBLE
-            viewModel.search(string)
+            viewModel.searchByName(string)
         } else {
             binding.recyclerView.visibility = View.GONE
         }
@@ -103,19 +116,27 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
             adapter.updateCities(it)
         }
 
-        viewModel.test.observe(this) {
-            val latitude = it.latitude
-            val longitude = it.longitude
-            val str = "${latitude}, ${longitude}"
-            Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
+        viewModel.userLocale.observe(this) {
+
+            val latitude = it.latitude.toString()
+            val longitude = it.longitude.toString()
+            viewModel.getKeyByLocale(latitude, longitude, keyCity)
         }
 
-        viewModel.isSaved.observe(this){
-            if (it){
+        viewModel.listCities.observe(this) {
+            binding.textLocation.text = it.city
+            val state = it.state.name
+            val country = it.country.name
+            val str = "$state, $country"
+            binding.textLocationDescription.text = str
+            isLocationFilled = true
+        }
+
+        viewModel.isSaved.observe(this) {
+            if (it) {
                 finish()
             }
         }
-
     }
 
     // Inicia RecyclerView

@@ -34,4 +34,8 @@ class WeatherConstants private constructor() {
         const val HOUR_OF_NIGHT = 6
     }
 
+    object PERMISSION{
+        const val LOCATION_PERMISSION_REQUEST_CODE = 123
+    }
+
 }
