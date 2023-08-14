@@ -157,6 +157,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 alertDialogError(code)
             }
         }
+        intentSearchActivity = Intent(this, SearchActivity::class.java)
+        intentSearchActivity.putExtra(WeatherConstants.EXTRA.API_KEY, viewModel.getKeyAPI())
     }
 
     // Atribuir valores OnResume

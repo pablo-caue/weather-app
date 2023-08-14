@@ -23,6 +23,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
     private lateinit var adapter: CityAdapter
     private lateinit var keyCity: String
     private var isLocationFilled = false
+    private var userLocaleIsClicked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivitySearchBinding.inflate(layoutInflater)
@@ -49,7 +50,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
         // Listener click recyclerView
         val listener = object : CityListener {
             override fun onClick(city: String, latitude: String, longitude: String) {
-                viewModel.getKeyByPosition(latitude, longitude, keyCity)
+                viewModel.getKeyByPosition(latitude, longitude, keyCity, city)
             }
 
         }
@@ -78,9 +79,9 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
             R.id.image_back -> finish()
 
             R.id.image_locale, R.id.text_location, R.id.text_location_description ->
-                if(isLocationFilled) {
+                if (isLocationFilled) {
                     finish()
-                }else{
+                } else {
                     viewModel.getPermissionLocale(this)
                 }
         }
@@ -90,7 +91,8 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
     override fun onQueryTextSubmit(string: String?): Boolean {
 
         //Fecha o teclado
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
         return true
     }
@@ -120,7 +122,8 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
 
             val latitude = it.latitude.toString()
             val longitude = it.longitude.toString()
-            viewModel.getKeyByLocale(latitude, longitude, keyCity)
+            userLocaleIsClicked = true
+            viewModel.getKeyByLocale(latitude, longitude, keyCity, userLocaleIsClicked)
         }
 
         viewModel.listCities.observe(this) {

@@ -51,14 +51,14 @@ class SearchViewModel(private val application: Application) : AndroidViewModel(a
         })
     }
 
-    fun getKeyByPosition(latitude: String, longitude: String, apiKey: String) {
+    fun getKeyByPosition(latitude: String, longitude: String, apiKey: String, city: String) {
 
         val query = "${latitude},${longitude}"
 
         searchRepository.getKeyByPosition(query, apiKey, object : APIListener<AccuCityModel> {
             override fun onSuccess(result: AccuCityModel) {
                 sharedPreferences.store(WeatherConstants.SHARED.KEY, result.key)
-                sharedPreferences.store(WeatherConstants.SHARED.CITY, result.city)
+                sharedPreferences.store(WeatherConstants.SHARED.CITY, city)
                 _isSaved.value = true
             }
 
@@ -68,14 +68,16 @@ class SearchViewModel(private val application: Application) : AndroidViewModel(a
         })
     }
 
-    fun getKeyByLocale(latitude: String, longitude: String, apiKey: String) {
+    fun getKeyByLocale(latitude: String, longitude: String, apiKey: String, isClicked: Boolean) {
 
         val query = "${latitude},${longitude}"
 
         searchRepository.getKeyByPosition(query, apiKey, object : APIListener<AccuCityModel> {
             override fun onSuccess(result: AccuCityModel) {
-                sharedPreferences.store(WeatherConstants.SHARED.KEY, result.key)
-                sharedPreferences.store(WeatherConstants.SHARED.CITY, result.city)
+                if (isClicked){
+                    sharedPreferences.store(WeatherConstants.SHARED.KEY, result.key)
+                    sharedPreferences.store(WeatherConstants.SHARED.CITY, result.city)
+                }
                 _listCities.value = result
             }
 
