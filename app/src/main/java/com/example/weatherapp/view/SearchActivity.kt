@@ -148,10 +148,28 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
                 binding.background.setBackgroundColor(getColor(R.color.black_background))
                 binding.imageBack.setBackgroundColor(getColor(R.color.black_background))
                 binding.imageBack.setColorFilter(getColor(R.color.white_background))
+
+                val originalDrawable = resources.getDrawable(R.drawable.background_search, theme)
+                val drawable = originalDrawable.mutate()
+                drawable.setTint(getColor(R.color.colorSecondaryDark))
+                binding.searchView.background = drawable
+
+                binding.imageLocale.setColorFilter(getColor(R.color.colorSecondaryDark))
+                binding.textLocationDescription.setTextColor(getColor(R.color.colorSecondaryDark))
+                binding.view.setBackgroundColor(getColor(R.color.colorSecondaryDark))
             }else{
                 binding.background.setBackgroundColor(getColor(R.color.white_background))
                 binding.imageBack.setBackgroundColor(getColor(R.color.white_background))
                 binding.imageBack.setColorFilter(getColor(R.color.black_background))
+
+                val originalDrawable = resources.getDrawable(R.drawable.background_search, theme)
+                val drawable = originalDrawable.mutate()
+                drawable.setTint(getColor(R.color.colorSecondaryWhite))
+                binding.searchView.background = drawable
+
+                binding.imageLocale.setColorFilter(getColor(R.color.colorSecondaryWhite))
+                binding.textLocationDescription.setTextColor(getColor(R.color.colorSecondaryWhite))
+                binding.view.setBackgroundColor(getColor(R.color.colorSecondaryWhite))
             }
         }
     }

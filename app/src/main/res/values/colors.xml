@@ -8,7 +8,8 @@
     <color name="white_background">#f1f3f8</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="black_2">#1a2332</color>
-    <color name="black_3">#364161</color>
+    <color name="colorSecondaryDark">#364161</color>
+    <color name="colorSecondaryWhite">#7C89B6</color>
     <color name="yellow">#fdd020</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>

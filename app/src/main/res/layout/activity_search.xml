@@ -79,7 +79,7 @@
             android:text="Necessario permissão de localização"
             app:layout_constraintStart_toEndOf="@id/image_locale"
             app:layout_constraintTop_toBottomOf="@id/text_location"
-            android:textColor="@color/black_3"
+            android:textColor="@color/colorSecondaryDark"
             android:layout_marginStart="18dp"
             android:textSize="16sp"
             android:layout_marginTop="2dp"/>
@@ -101,7 +101,7 @@
         android:id="@+id/view"
         android:layout_width="327dp"
         android:layout_height="2dp"
-        android:background="@color/black_3"
+        android:background="@color/colorSecondaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

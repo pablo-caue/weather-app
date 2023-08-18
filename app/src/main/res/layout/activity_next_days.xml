@@ -175,7 +175,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/powered"
-            android:textColor="@color/black_3"
+            android:textColor="@color/colorSecondaryDark"
             android:textSize="16dp"
             app:layout_constraintStart_toEndOf="@id/image_powered"
             app:layout_constraintEnd_toEndOf="parent"
