@@ -1,6 +1,8 @@
 package com.example.weatherapp.viewmodel
 
 import android.app.Application
+import android.content.Context
+import android.content.res.Configuration
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,6 +27,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private var _error = MutableLiveData<String>()
     var error : LiveData<String> = _error
+
+
+    private var _isDarkModeEnabled = MutableLiveData<Boolean>()
+    var isDarkModeEnabled : LiveData<Boolean> = _isDarkModeEnabled
 
     private val mainRepository = MainRepository(application)
 
@@ -100,5 +106,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun setKeyAPI(newKey: String){
         key = newKey
     }
+
+    fun checkStyleMode(context: Context){
+        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES
+        _isDarkModeEnabled.value = currentNightMode == Configuration.UI_MODE_NIGHT_YES
+    }
+
 
 }

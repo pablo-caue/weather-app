@@ -63,6 +63,8 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
 
         //Observer
         observer()
+
+        viewModel.checkThemeMode(this)
     }
 
     override fun onResume() {
@@ -138,6 +140,18 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
         viewModel.isSaved.observe(this) {
             if (it) {
                 finish()
+            }
+        }
+
+        viewModel.isDarkThemeEnabled.observe(this){
+            if (it){
+                binding.background.setBackgroundColor(getColor(R.color.black_background))
+                binding.imageBack.setBackgroundColor(getColor(R.color.black_background))
+                binding.imageBack.setColorFilter(getColor(R.color.white_background))
+            }else{
+                binding.background.setBackgroundColor(getColor(R.color.white_background))
+                binding.imageBack.setBackgroundColor(getColor(R.color.white_background))
+                binding.imageBack.setColorFilter(getColor(R.color.black_background))
             }
         }
     }
