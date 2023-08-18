@@ -59,6 +59,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         intentSearchActivity = Intent(this, SearchActivity::class.java)
         intentSearchActivity.putExtra(WeatherConstants.EXTRA.API_KEY, viewModel.getKeyAPI())
+
+        viewModel.checkStyleMode(this)
     }
 
     override fun onResume() {
@@ -136,6 +138,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // TwelveHours API
         viewModel.twelveHours.observe(this) {
             hourlyAdapter.updateHourly(it)
+        }
+
+        viewModel.isDarkModeEnabled.observe(this){
+            if (it){
+                binding.cardview.setCardBackgroundColor(getColor(R.color.teal_200))
+            }else{
+                binding.cardview.setCardBackgroundColor(getColor(R.color.yellow))
+            }
         }
 
     }
