@@ -5,7 +5,7 @@ class WeatherConstants private constructor() {
     object APIWeather {
         const val KEY_1 = "lkDtouBQJJ6izHvSVDe2KaghS498vLs4"
         const val KEY_2 = "5icfUGAM6D6nLAi6D0duYOQAE4CYFpAW"
-        const val KEY_3 = "lkDtouBQJJ"
+        const val KEY_3 = "KlwBJA7mwIvgpIBqlXNdoSG3hf2wO5Ln"
         const val BASE_URL = "http://dataservice.accuweather.com/"
     }
 

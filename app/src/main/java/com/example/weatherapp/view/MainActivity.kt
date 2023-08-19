@@ -3,6 +3,7 @@ package com.example.weatherapp.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var currentLocale: Locale
     private lateinit var listOfDays: String
     private lateinit var intentSearchActivity: Intent
+    val calendar = Calendar.getInstance()
 
 
 
@@ -87,10 +89,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     // Listar dados API
     private fun listWeather() {
 
-        val keyCity = viewModel.geyKeyCity()
+        val keyCity = "45881"
         val keyApi = viewModel.getKeyAPI()
-
-        if (keyCity == "") startActivity(intentSearchActivity)
 
         val language = currentLocale.language
         val country = currentLocale.country
@@ -116,7 +116,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 WeatherConstants.HTTP.ERROR_EXCEEDED -> chanceKeyAPI(code as String)
 
                 // Erro chave desconhecida
-                WeatherConstants.HTTP.ERROR_KEY -> alertDialogError(code as String)
+                WeatherConstants.HTTP.ERROR_KEY -> Toast.makeText(this, code, Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -142,9 +143,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         viewModel.isDarkModeEnabled.observe(this){
             if (it){
-                binding.cardview.setCardBackgroundColor(getColor(R.color.teal_200))
+                binding.constraintLayout.setBackgroundColor(getColor(R.color.black_background))
+                binding.cardview.setCardBackgroundColor(getColor(R.color.background_card_dark))
+                binding.imageChanceRain.setColorFilter(getColor(R.color.white))
+                binding.imageWindSpeed.setColorFilter(getColor(R.color.white))
+                binding.imageHumidity.setColorFilter(getColor(R.color.white))
             }else{
-                binding.cardview.setCardBackgroundColor(getColor(R.color.yellow))
+                binding.constraintLayout.setBackgroundColor(getColor(R.color.white_background))
+                binding.imageSearch.setColorFilter(getColor(R.color.black))
+
+                val hourOfDay = calendar.get(Calendar.HOUR_OF_DAY)
+
+                if(hourOfDay < 18){
+                    binding.cardview.setCardBackgroundColor(getColor(R.color.background_card_white_night))
+                }else{
+                    binding.cardview.setCardBackgroundColor(getColor(R.color.background_card_white_night))
+                }
+
+                binding.textDate.setTextColor(getColor(R.color.black))
+                binding.textCity.setTextColor(getColor(R.color.black))
+                binding.textToday.setTextColor(getColor(R.color.yellow_light))
+                binding.textNextDays.setTextColor(getColor(R.color.black))
             }
         }
 
@@ -248,7 +267,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
 
         // chance de chuva
-        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val chanceDay = data.day.rainProbability
         val chanceNight = data.night.rainProbability
 

@@ -61,7 +61,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
           }
 
           override fun onFailure(message: String) {
-              val s = ""
+              _error.value = message
           }
 
       })
@@ -75,7 +75,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             override fun onFailure(message: String) {
-                val s = ""
+                _error.value = message
             }
 
         })
@@ -89,7 +89,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     // Pega nome cidade
     fun getCity(): String {
-        return sharedPreferences.get(WeatherConstants.SHARED.CITY)
+        return "São Paulo"
+    // return sharedPreferences.get(WeatherConstants.SHARED.CITY)
     }
 
     // Pega chave cidade

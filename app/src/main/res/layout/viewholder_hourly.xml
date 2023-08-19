@@ -9,10 +9,11 @@
     app:cardCornerRadius="16dp">
 
     <LinearLayout
+        android:id="@+id/linearlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/black_2">
+        android:background="@color/background_card_dark">
 
         <TextView
             android:id="@+id/text_time"
