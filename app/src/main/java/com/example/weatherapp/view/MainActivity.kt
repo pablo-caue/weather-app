@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
@@ -61,8 +62,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         intentSearchActivity = Intent(this, SearchActivity::class.java)
         intentSearchActivity.putExtra(WeatherConstants.EXTRA.API_KEY, viewModel.getKeyAPI())
-
-        viewModel.checkStyleMode(this)
     }
 
     override fun onResume() {
@@ -89,8 +88,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     // Listar dados API
     private fun listWeather() {
 
-        val keyCity = "45881"
+        var keyCity = viewModel.geyKeyCity()
         val keyApi = viewModel.getKeyAPI()
+        if (keyCity == ""){
+            keyCity = "60449"
+            val intent = Intent(this, SearchActivity::class.java)
+            intent.putExtra(WeatherConstants.EXTRA.KEY_CITY, keyCity)
+            intent.putExtra(WeatherConstants.EXTRA.API_KEY, keyApi)
+            startActivity(intent)
+        }
 
         val language = currentLocale.language
         val country = currentLocale.country
@@ -109,15 +115,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         // Erros API
         viewModel.error.observe(this) {
-            val code = it.subSequence(5, 8)
+
+            var code = it.subSequence(5, 8)
+            if (it == "Unauthorized"){
+                code = "401"
+            }
+
+
 
             when (code) {
                 // Erro limite chamadas
                 WeatherConstants.HTTP.ERROR_EXCEEDED -> chanceKeyAPI(code as String)
 
                 // Erro chave desconhecida
-                WeatherConstants.HTTP.ERROR_KEY -> Toast.makeText(this, code, Toast.LENGTH_SHORT)
-                    .show()
+                WeatherConstants.HTTP.ERROR_KEY -> chanceKeyAPI(code as String)
             }
         }
 
@@ -140,33 +151,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         viewModel.twelveHours.observe(this) {
             hourlyAdapter.updateHourly(it)
         }
-
-        viewModel.isDarkModeEnabled.observe(this){
-            if (it){
-                binding.constraintLayout.setBackgroundColor(getColor(R.color.black_background))
-                binding.cardview.setCardBackgroundColor(getColor(R.color.background_card_dark))
-                binding.imageChanceRain.setColorFilter(getColor(R.color.white))
-                binding.imageWindSpeed.setColorFilter(getColor(R.color.white))
-                binding.imageHumidity.setColorFilter(getColor(R.color.white))
-            }else{
-                binding.constraintLayout.setBackgroundColor(getColor(R.color.white_background))
-                binding.imageSearch.setColorFilter(getColor(R.color.black))
-
-                val hourOfDay = calendar.get(Calendar.HOUR_OF_DAY)
-
-                if(hourOfDay < 18){
-                    binding.cardview.setCardBackgroundColor(getColor(R.color.background_card_white_night))
-                }else{
-                    binding.cardview.setCardBackgroundColor(getColor(R.color.background_card_white_night))
-                }
-
-                binding.textDate.setTextColor(getColor(R.color.black))
-                binding.textCity.setTextColor(getColor(R.color.black))
-                binding.textToday.setTextColor(getColor(R.color.yellow_light))
-                binding.textNextDays.setTextColor(getColor(R.color.black))
-            }
-        }
-
     }
 
     // Alterar chave API

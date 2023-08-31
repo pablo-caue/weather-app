@@ -27,6 +27,7 @@ class WeatherConstants private constructor() {
     }
 
     object EXTRA{
+        const val KEY_CITY = "keyCity"
         const val LIST_OF_DAYS = "listOfDays"
         const val API_KEY = "apiKey"
     }

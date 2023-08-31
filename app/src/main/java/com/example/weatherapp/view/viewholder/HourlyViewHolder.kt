@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ViewholderHourlyBinding
-import com.example.weatherapp.service.helper.StyleTheme
 import com.example.weatherapp.service.model.HourlyModel
 import com.example.weatherapp.service.model.TwelveHoursModel
 import java.text.SimpleDateFormat
@@ -18,15 +17,8 @@ class HourlyViewHolder(private val itemBinding: ViewholderHourlyBinding): Recycl
     private val picPath = itemBinding.imageWeather
     private val background = itemBinding.linearlayout
 
-    private val styleTheme = StyleTheme()
 
     fun bind(twelveHoursModel: TwelveHoursModel){
-
-        if (styleTheme.isDarkModeEnabled(itemBinding.root.context)){
-            background.setBackgroundColor(ContextCompat.getColor(itemBinding.root.context, R.color.background_card_dark))
-        } else{
-            background.setBackgroundColor(ContextCompat.getColor(itemBinding.root.context, R.color.background_card_white_light))
-        }
 
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
         val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())

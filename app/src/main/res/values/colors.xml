@@ -5,12 +5,13 @@
     <color name="colorPrimaryTextLight">#000000</color>
     <color name="colorPrimaryTextDark">#FFFFFF</color>
     <color name="black_background">#161c2e</color>
-    <color name="white_background">#E4E7F1</color>
+    <color name="white_background">#67ACE4</color>
     <color name="transparent">#00FFFFFF</color>
-    <color name="background_card_dark">#1a2332</color>
+    <color name="background_card_dark">#1F2B3E</color>
     <color name="background_card_white_light">#ffc72a</color>
     <color name="background_card_white_night">#3b5da5</color>
-    <color name="colorSecondaryDark">#364161</color>
+    <color name="text_color_white_night">#60a2d7</color>
+    <color name="colorSecondaryDark">#364161</color>-
     <color name="colorSecondaryWhite">#7C89B6</color>
     <color name="yellow_dark">#fdd020</color>
     <color name="yellow_light">#B69202</color>

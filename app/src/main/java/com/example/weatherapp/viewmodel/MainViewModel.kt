@@ -17,20 +17,16 @@ import com.google.gson.Gson
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private var _oneHour = MutableLiveData<OneHourModel>()
-    var oneHour : LiveData<OneHourModel> = _oneHour
+    var oneHour: LiveData<OneHourModel> = _oneHour
 
     private var _twelveHours = MutableLiveData<List<TwelveHoursModel>>()
-    var twelveHours : LiveData<List<TwelveHoursModel>> = _twelveHours
+    var twelveHours: LiveData<List<TwelveHoursModel>> = _twelveHours
 
     private var _listDay = MutableLiveData<HourlyModel>()
-    var listDay : LiveData<HourlyModel> = _listDay
+    var listDay: LiveData<HourlyModel> = _listDay
 
     private var _error = MutableLiveData<String>()
-    var error : LiveData<String> = _error
-
-
-    private var _isDarkModeEnabled = MutableLiveData<Boolean>()
-    var isDarkModeEnabled : LiveData<Boolean> = _isDarkModeEnabled
+    var error: LiveData<String> = _error
 
     private val mainRepository = MainRepository(application)
 
@@ -39,46 +35,70 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var key: String
 
     // Lista Onehour API
-    fun listOneHour(city: String, key: String, lang: String,details: Boolean, metric: Boolean){
-        mainRepository.listOneHour(city, key, lang,details, metric, object : APIListener<List<OneHourModel>>{
-            override fun onSuccess(result: List<OneHourModel>) {
-                _oneHour.value = result.get(0)
-            }
+    fun listOneHour(city: String, key: String, lang: String, details: Boolean, metric: Boolean) {
+        mainRepository.listOneHour(
+            city,
+            key,
+            lang,
+            details,
+            metric,
+            object : APIListener<List<OneHourModel>> {
+                override fun onSuccess(result: List<OneHourModel>) {
+                    _oneHour.value = result.get(0)
+                }
 
-            override fun onFailure(message: String) {
-                _error.value = message
-            }
+                override fun onFailure(message: String) {
+                    _error.value = message
+                }
 
-        })
+            })
 
-        }
+    }
 
     // Lista FiveDays API
-    fun listDay(city: String, key: String, lang: String,details:Boolean, metric: Boolean){
-      mainRepository.listDays(city, key, lang,details , metric, object : APIListener<HourlyModel>{
-          override fun onSuccess(result: HourlyModel) {
-              _listDay.value = result
-          }
+    fun listDay(city: String, key: String, lang: String, details: Boolean, metric: Boolean) {
+        mainRepository.listDays(
+            city,
+            key,
+            lang,
+            details,
+            metric,
+            object : APIListener<HourlyModel> {
+                override fun onSuccess(result: HourlyModel) {
+                    _listDay.value = result
+                }
 
-          override fun onFailure(message: String) {
-              _error.value = message
-          }
+                override fun onFailure(message: String) {
+                    _error.value = message
+                }
 
-      })
+            })
     }
 
     // Lista TwelveHours API
-    fun listTwelveHours(city: String, key: String, lang: String,details:Boolean, metric: Boolean){
-        mainRepository.listTwelveHours(city, key, lang, details, metric, object : APIListener<List<TwelveHoursModel>>{
-            override fun onSuccess(result: List<TwelveHoursModel>) {
-                _twelveHours.value = result
-            }
+    fun listTwelveHours(
+        city: String,
+        key: String,
+        lang: String,
+        details: Boolean,
+        metric: Boolean
+    ) {
+        mainRepository.listTwelveHours(
+            city,
+            key,
+            lang,
+            details,
+            metric,
+            object : APIListener<List<TwelveHoursModel>> {
+                override fun onSuccess(result: List<TwelveHoursModel>) {
+                    _twelveHours.value = result
+                }
 
-            override fun onFailure(message: String) {
-                _error.value = message
-            }
+                override fun onFailure(message: String) {
+                    _error.value = message
+                }
 
-        })
+            })
     }
 
     // Converte objeto para string
@@ -89,12 +109,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     // Pega nome cidade
     fun getCity(): String {
-        return "São Paulo"
-    // return sharedPreferences.get(WeatherConstants.SHARED.CITY)
+        return sharedPreferences.get(WeatherConstants.SHARED.CITY)
     }
 
     // Pega chave cidade
-    fun geyKeyCity(): String{
+    fun geyKeyCity(): String {
         return sharedPreferences.get(WeatherConstants.SHARED.KEY)
     }
 
@@ -104,14 +123,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // Atribui chave API
-    fun setKeyAPI(newKey: String){
+    fun setKeyAPI(newKey: String) {
         key = newKey
     }
-
-    fun checkStyleMode(context: Context){
-        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES
-        _isDarkModeEnabled.value = currentNightMode == Configuration.UI_MODE_NIGHT_YES
-    }
-
 
 }

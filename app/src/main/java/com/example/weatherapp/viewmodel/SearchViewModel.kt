@@ -11,7 +11,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.weatherapp.service.constants.WeatherConstants
-import com.example.weatherapp.service.helper.StyleTheme
 import com.example.weatherapp.service.listener.APIListener
 import com.example.weatherapp.service.model.AccuCityModel
 import com.example.weatherapp.service.model.CityModel
@@ -35,15 +34,12 @@ class SearchViewModel(private val application: Application) : AndroidViewModel(a
     private val _isSaved = MutableLiveData<Boolean>()
     val isSaved : LiveData<Boolean> = _isSaved
 
+
     private val _userLocale = MutableLiveData<Location>()
     val userLocale: LiveData<Location> = _userLocale
 
-    private val _isDarkThemeEnabled = MutableLiveData<Boolean>()
-    val isDarkThemeEnabled : LiveData<Boolean> = _isDarkThemeEnabled
-
     private val sharedPreferences = SharedPreferences(application.applicationContext)
     private val searchRepository = SearchRepository()
-    private val styleTheme = StyleTheme()
 
     fun searchByName(city: String) {
         searchRepository.searchByName(city, object : APIListener<List<CityModel>> {
@@ -115,10 +111,6 @@ class SearchViewModel(private val application: Application) : AndroidViewModel(a
                 }
             }
         }
-    }
-
-    fun checkThemeMode(context: Context){
-        _isDarkThemeEnabled.value = styleTheme.isDarkModeEnabled(context)
     }
 
 }

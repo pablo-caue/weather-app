@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +22,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
     private lateinit var binding: ActivitySearchBinding
     private lateinit var viewModel: SearchViewModel
     private lateinit var adapter: CityAdapter
-    private lateinit var keyCity: String
+    private lateinit var apiKey: String
     private var isLocationFilled = false
     private var userLocaleIsClicked = false
 
@@ -35,7 +36,8 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
         // Variaveis da classe
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
         adapter = CityAdapter()
-        keyCity = intent.getStringExtra(WeatherConstants.EXTRA.API_KEY)!!
+        apiKey = intent.getStringExtra(WeatherConstants.EXTRA.API_KEY)!!
+
 
         // Esconder ActionBar
         supportActionBar?.hide()
@@ -50,7 +52,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
         // Listener click recyclerView
         val listener = object : CityListener {
             override fun onClick(city: String, latitude: String, longitude: String) {
-                viewModel.getKeyByPosition(latitude, longitude, keyCity, city)
+                viewModel.getKeyByPosition(latitude, longitude, apiKey, city)
             }
 
         }
@@ -64,7 +66,6 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
         //Observer
         observer()
 
-        viewModel.checkThemeMode(this)
     }
 
     override fun onResume() {
@@ -125,7 +126,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
             val latitude = it.latitude.toString()
             val longitude = it.longitude.toString()
             userLocaleIsClicked = true
-            viewModel.getKeyByLocale(latitude, longitude, keyCity, userLocaleIsClicked)
+            viewModel.getKeyByLocale(latitude, longitude, apiKey, userLocaleIsClicked)
         }
 
         viewModel.listCities.observe(this) {
@@ -143,29 +144,6 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, View
             }
         }
 
-        viewModel.isDarkThemeEnabled.observe(this) {
-            if (it) {
-                binding.background.setBackgroundColor(getColor(R.color.black_background))
-                binding.imageBack.setBackgroundColor(getColor(R.color.black_background))
-                binding.imageBack.setColorFilter(getColor(R.color.white_background))
-
-
-                val originalDrawable = resources.getDrawable(R.drawable.background_search, theme)
-                val drawable = originalDrawable.mutate()
-                drawable.setTint(getColor(R.color.colorSecondaryDark))
-                binding.searchView.background = drawable
-
-                binding.imageLocale.setColorFilter(getColor(R.color.colorSecondaryDark))
-                binding.textLocationDescription.setTextColor(getColor(R.color.colorSecondaryDark))
-                binding.view.setBackgroundColor(getColor(R.color.colorSecondaryDark))
-
-            } else {
-                binding.background.setBackgroundColor(getColor(R.color.white_background))
-                binding.imageBack.setBackgroundColor(getColor(R.color.white_background))
-                binding.imageBack.setColorFilter(getColor(R.color.black_background))
-
-            }
-        }
     }
 
     // Inicia RecyclerView
