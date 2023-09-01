@@ -82,6 +82,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.image_search -> {
                 startActivity(intentSearchActivity)
             }
+
+            R.id.image_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+            }
         }
     }
 
