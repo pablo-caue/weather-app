@@ -53,6 +53,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // Eventos
         binding.textNextDays.setOnClickListener(this)
         binding.imageSearch.setOnClickListener(this)
+        binding.imageSettings.setOnClickListener(this)
 
         // Observer
         observe()
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.image_settings -> {
-                startActivity(Intent(this, SettingsActivity::class.java))
+                startActivity(Intent(applicationContext, SettingsActivity::class.java))
             }
         }
     }

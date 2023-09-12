@@ -26,4 +26,10 @@
     <string name="friday">Sexta-feira</string>
     <string name="saturday">Sábado</string>
     <string name="powered">Fornecido por AccuWeather</string>
+
+
+    <string-array name="format_time">
+        <item>12h</item>
+        <item>24h</item>
+    </string-array>
 </resources>

@@ -25,4 +25,16 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="powered">Powered by AccuWeather</string>
+    <string name="settings">Configurações</string>
+    <string name="data">Dados</string>
+    <string name="time_format">Formato de hora</string>
+    <string name="title_modal_spinner">Title</string>
+    <string name="option_1">option 1</string>
+    <string name="option_2">option 2</string>
+
+
+    <string-array name="format_time">
+        <item>12h</item>
+        <item>24h</item>
+    </string-array>
 </resources>
